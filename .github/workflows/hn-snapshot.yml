@@ -26,5 +26,4 @@ jobs:
           name: ${{ env.CURRENT_DATE }}
           tag: ${{ env.TAG_NAME }}
           makeLatest: True
-          body: HN ${{ env.CURRENT_DATE }} snapshot
           artifacts: "out/*.json"
