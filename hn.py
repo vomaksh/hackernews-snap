@@ -37,8 +37,13 @@ def get_top_stories():
         "ask_hn": [],
         "show_hn": [],
     }
+    items = []
     for item_id in stories:
         item = get_item(client=client, item_id=item_id)
+        items.append(item)
+    items = sorted(items, key=lambda x: x["score"], reverse=True)
+    items = items[:200]
+    for item in items:
         item_type = get_item_type(item)
         if item_type == "ask_hn" or item_type == "show_hn" or item_type == "default":
             hn_stories[item_type].append(
@@ -50,7 +55,8 @@ def get_top_stories():
                     "time": item["time"],
                     "title": item["title"],
                     "type": item["type"],
-                    "url": item["url"],
+                    "text": item.get("text"),
+                    "url": item.get("url"),
                 }
             )
     return hn_stories
