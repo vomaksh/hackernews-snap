@@ -1,8 +1,5 @@
 name: HackerNews snapshot
-on: 
-  push:
-    tags:
-      - '*'
+on: push
   # schedule:
   #   - cron: '0 */6 * * *'
 jobs:
@@ -21,6 +18,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           name: ${{ env.CURRENT_DATE }}
+          tag: ${{ env.CURRENT_DATE }}
           makeLatest: True
           body: HN ${{ env.CURRENT_DATE }} snapshot
           artifacts: "out/*.json"
