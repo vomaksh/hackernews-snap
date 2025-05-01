@@ -17,9 +17,9 @@ jobs:
       - run: 'uv run main.py'
       - uses: ncipollo/release-action@v1
         with:
-          name: ${{ CURRENT_DATE }}
+          name: ${{ env.CURRENT_DATE }}
           makeLatest: True
-          body: HN ${{ CURRENT_DATE }} snapshot
+          body: HN ${{ env.CURRENT_DATE }} snapshot
           artifacts:
             - out/default.json
             - out/ask_hn.json
