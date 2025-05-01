@@ -42,7 +42,6 @@ def get_top_stories():
         item = get_item(client=client, item_id=item_id)
         items.append(item)
     items = sorted(items, key=lambda x: x["score"], reverse=True)
-    items = items[:200]
     for item in items:
         item_type = get_item_type(item)
         if item_type == "ask_hn" or item_type == "show_hn" or item_type == "default":
