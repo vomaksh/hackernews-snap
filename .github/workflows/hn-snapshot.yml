@@ -1,12 +1,11 @@
 name: HackerNews snapshot
 
-on: push
-# on:
-#   schedule:
-#     - cron: '30 12 * * *'
-#     - cron: '30 15 * * *'
-#     - cron: '30 18 * * *'
-#     - cron: '30 21 * * *'
+on:
+  schedule:
+    - cron: '30 12 * * *'
+    - cron: '30 15 * * *'
+    - cron: '30 18 * * *'
+    - cron: '30 21 * * *'
 
 permissions:
   contents: write
