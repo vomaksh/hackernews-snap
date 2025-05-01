@@ -1,0 +1,26 @@
+name: HackerNews snapshot
+on: push
+  # schedule:
+  #   - cron: '0 */6 * * *'
+jobs:
+  hn-stories:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-python@v5
+        with:
+          python-version-file: 'pyproject.toml'
+      - name: Get current date
+        run: |
+          echo "CURRENT_DATE=$(date --rfc-3339=date) $(date +%R)" >> ${GITHUB_ENV}
+      - run: 'uv run main.py'
+      - uses: ncipollo/release-action@v1
+        with:
+          name: ${{ CURRENT_DATE }}
+          makeLatest: True
+          body: HN ${{ CURRENT_DATE }} snapshot
+          artifacts:
+            - out/default.json
+            - out/ask_hn.json
+            - out/show_hn.json
