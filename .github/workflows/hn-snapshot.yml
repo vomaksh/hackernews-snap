@@ -20,7 +20,4 @@ jobs:
           name: ${{ env.CURRENT_DATE }}
           makeLatest: True
           body: HN ${{ env.CURRENT_DATE }} snapshot
-          artifacts:
-            - out/default.json
-            - out/ask_hn.json
-            - out/show_hn.json
+          artifacts: "out/*.json"
