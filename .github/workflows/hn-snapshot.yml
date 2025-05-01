@@ -18,12 +18,13 @@ jobs:
           python-version-file: 'pyproject.toml'
       - name: Get current date
         run: |
-          echo "CURRENT_DATE=$(date --rfc-3339=date)_$(date +%R)" >> ${GITHUB_ENV}
+          echo "CURRENT_DATE=$(date --rfc-3339=date) $(date +%R)" >> ${GITHUB_ENV}
+          echo "TAG_NAME=$(date +%s)" >> ${GITHUB_ENV}
       - run: 'uv run main.py'
       - uses: ncipollo/release-action@v1
         with:
           name: ${{ env.CURRENT_DATE }}
-          tag: ${{ env.CURRENT_DATE }}
+          tag: ${{ env.TAG_NAME }}
           makeLatest: True
           body: HN ${{ env.CURRENT_DATE }} snapshot
           artifacts: "out/*.json"
