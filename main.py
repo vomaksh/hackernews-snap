@@ -10,10 +10,10 @@ from hn import (
 
 def main():
     # top stories
-    # print("Fetching top stories")
-    # top_stories = get_top_stories()
-    # save_to_file("out/topstories.json", json.dumps(top_stories))
-    # print("Saved top stories successfully")
+    print("Fetching top stories")
+    top_stories = get_top_stories()
+    save_to_file("out/topstories.json", json.dumps(top_stories))
+    print("Saved top stories successfully")
 
     # best stories
     print("Fetching best stories")
