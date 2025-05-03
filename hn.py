@@ -1,4 +1,4 @@
-from typing import Literal, cast
+from typing import cast
 import httpx
 
 
@@ -8,6 +8,21 @@ def get_client():
 
 def fetch_top_stories(client: httpx.Client):
     r = client.get("/topstories.json")
+    return r.json()
+
+
+def fetch_best_stories(client: httpx.Client):
+    r = client.get("/beststories.json")
+    return r.json()
+
+
+def fetch_ask_stories(client: httpx.Client):
+    r = client.get("/askstories.json")
+    return r.json()
+
+
+def fetch_show_stories(client: httpx.Client):
+    r = client.get("/showstories.json")
     return r.json()
 
 
@@ -31,34 +46,50 @@ def get_item_type(item: dict):
 
 def get_top_stories():
     client = get_client()
-    stories = fetch_top_stories(client=client)
-    hn_stories: dict[Literal["default", "ask_hn", "show_hn"], list[dict]] = {
-        "default": [],
-        "ask_hn": [],
-        "show_hn": [],
-    }
+    top_stories = fetch_top_stories(client=client)
     items = []
-    for item_id in stories:
+    for item_id in top_stories:
         item = get_item(client=client, item_id=item_id)
+        if item.get("kids"):
+            del item["kids"]
         items.append(item)
-    items = sorted(items, key=lambda x: x["score"], reverse=True)
-    for item in items:
-        item_type = get_item_type(item)
-        if item_type == "ask_hn" or item_type == "show_hn" or item_type == "default":
-            hn_stories[item_type].append(
-                {
-                    "by": item["by"],
-                    "descendants": item["descendants"],
-                    "id": item["id"],
-                    "score": item["score"],
-                    "time": item["time"],
-                    "title": item["title"],
-                    "type": item["type"],
-                    "text": item.get("text"),
-                    "url": item.get("url"),
-                }
-            )
-    return hn_stories
+    return items
+
+
+def get_best_stories():
+    client = get_client()
+    top_stories = fetch_best_stories(client=client)
+    items = []
+    for item_id in top_stories:
+        item = get_item(client=client, item_id=item_id)
+        if item.get("kids"):
+            del item["kids"]
+        items.append(item)
+    return items
+
+
+def get_ask_stories():
+    client = get_client()
+    ask_stories = fetch_ask_stories(client=client)
+    items = []
+    for item_id in ask_stories:
+        item = get_item(client=client, item_id=item_id)
+        if item.get("kids"):
+            del item["kids"]
+        items.append(item)
+    return items
+
+
+def get_show_stories():
+    client = get_client()
+    show_stories = fetch_show_stories(client=client)
+    items = []
+    for item_id in show_stories:
+        item = get_item(client=client, item_id=item_id)
+        if item.get("kids"):
+            del item["kids"]
+        items.append(item)
+    return items
 
 
 def save_to_file(file_path: str, file_data: str):
